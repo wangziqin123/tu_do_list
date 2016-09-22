@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>To_do_List</title>
+    <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="beiwanglu.css">
+    <script src="angular.min.js"></script>
+    <script src="beiwanglu.js"></script>
+</head>
+<body ng-app="myapp">
+<div class="kongzhiqi" ng-controller="ctrl">
+    <div class="container-fluid box">
+        <div class="row">
+            <!--zuoce列表项-->
+            <div class="left col-md-3 col-xs-4">
+                <!--搜索框-->
+                <div class="form-group sousuo">
+                    <div class="input-group">
+                        <div class="input-group-addon glyphicon glyphicon-search"></div>
+                        <input class="form-control" type="text" placeholder="请输入搜索项" ng-model="search">
+                    </div>
+                </div>
+                <!--操作-->
+                <div class="caozuo">
+                    <button type="button" class="btn btn-info glyphicon glyphicon-plus" ng-click="addList(item.id)"></button>
+                    <div class="del-list glyphicon glyphicon-trash" ng-click="delList()"></div>
+                </div>
+                <!--done-->
+                <div class="wancheng" ng-click="isshow=false">
+                    <span class="glyphicon glyphicon-ok-sign"></span>已完成<span class="num">{{success.length}}</span>
+                </div>
+                <!--计划列表-->
+                <div class="jihua" ng-click="isshow=true">
+                    <span class='glyphicon glyphicon-tasks'></span>计划列表
+                </div>
+                <!--列表项-->
+                <div class="list" ng-repeat="item in data | filter :search track by item.id ">
+                    <div class="list-con">
+                        <input type="checkbox" id="{{item.id}}" ng-click="xuanze(item.id)">
+                        <input type="text" ng-model="item.title" ng-blur="blur(item.id)" ng-focus="focus(item.id)"><span class="glyphicon glyphicon-trash remove" ng-click="removeList(item.id)"></span>
+                    </div>
+                </div>
+            </div>
+            <!--右侧,计划列表子元素-->
+            <div class="right col-md-9 col-xs-8"  ng-show="isshow">
+                <div class="header">
+                    <div class="title">
+                       {{dangqianCon.title}}
+                    </div>
+                    <button type="button" class="btn btn-info glyphicon glyphicon-plus" ng-click="addCon()"></button>
+                </div>
+                <!--添加内容列表-->
+                <div class="list" ng-repeat="item in dangqianCon.son track by item.id">
+                    <div class="list-con">
+                        <span class="glyphicon glyphicon-share icon" ng-click="done(item.id)"></span>
+                        <input type="text" ng-model="item.title" class="zi" ng-blur="xiugai()">
+                        <span class="glyphicon glyphicon-trash remove" ng-click="removeCon(item.id)"></span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!--已完成显示-->
+            <div class="right col-md-9 col-xs-8"  ng-show="!isshow">
+                <div class="header">
+                    <div class="title">
+                      已完成项目
+                    </div>
+                </div>
+                <!--已完成内容列表-->
+                <div class="list" ng-repeat="item in success track by item.id">
+                    <div class="list-con">
+                        <span style="width: 90%;float: left;">{{item.title}}</span>
+                        <span class="glyphicon glyphicon-trash remove" ng-click="removeDone(item.id)"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
